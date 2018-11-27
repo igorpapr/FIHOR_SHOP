@@ -1,18 +1,24 @@
+html {
+  min-width: 360px; }
+
 header {
+  position: fixed;
+  display: block;
   width: 100%;
-  height: 10%;
-  background-color: #dd1c59; }
+  height: fit-content;
+  max-height: 70px;
+  background: linear-gradient(to top left, #560112 0%, #a80d2c 43%, #e86882 100%); }
   header h1 {
     margin-top: 0; }
   header a {
     text-decoration: none; }
   header #header-shape {
+    float: left;
     background-color: #b20c41;
     padding-left: 2%;
-    padding-top: 1%;
+    padding-top: 0.5%;
     border: 2px groove #5b162c;
     width: fit-content;
-    height: auto;
     border-radius: 15px 100px 15px 100px; }
     header #header-shape .header-title {
       display: block;
@@ -23,4 +29,55 @@ header {
       padding-right: 15%;
       font-family: 'Gloria Hallelujah', cursive, "Times New Roman";
       font-size: 2em; }
+  header #right-header-container {
+    float: right;
+    min-height: 60px; }
+    header #right-header-container #contacts-jump {
+      font-size: 1.3em;
+      font-family: 'Orbitron', sans-serif;
+      float: right;
+      text-align: center;
+      padding-top: 20px;
+      min-height: 60px; }
+      header #right-header-container #contacts-jump a {
+        color: white; }
+      header #right-header-container #contacts-jump a:hover {
+        text-decoration: none; }
+    header #right-header-container #cart {
+      float: right; }
+      header #right-header-container #cart img {
+        height: 63px;
+        width: 63px; }
+
+@media only screen and (min-width: 768px) {
+  #header-shape {
+    min-width: 178px; } }
+
+.main-content {
+  width: 100%;
+  min-width: 387px;
+  display: flex;
+  background-color: #ffedbc;
+  height: 1000px; }
+
+#categories {
+  margin: 80px 10px 10px 10px;
+  max-width: 420px;
+  width: 18rem;
+  border-radius: 5px;
+  background: linear-gradient(to bottom, #8c021e 0%, #c4173a 53%, #e86882 100%);
+  height: 400px; }
+
+#categories-title {
+  background: linear-gradient(to top, #680216 0%, #e2022e 82%, #680216 100%);
+  padding: 6px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 3px;
+  margin-top: 8px;
+  text-align: center; }
+  #categories-title span {
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.5em; }
 
