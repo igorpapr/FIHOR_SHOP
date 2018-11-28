@@ -140,14 +140,17 @@ header {
   }
 
   #goods-container{
+    margin-top: 15px;
     float:left;
   }
 
   .goods-img-container{
-    height:300px;
+    //height:300px;
   }
   .goods-img{
     max-width: 100%;
+    height: 200px;
+    object-fit: contain;
     margin: auto;
     vertical-align: middle;
     img{
@@ -158,8 +161,10 @@ header {
   .goods-list{
     margin:10px;
     display: inline-block;
-    max-width:33.3%;
+    width:30%;
+    margin: 0 1%;
     text-align: center;
+    min-width:160px;
   }
   .special-price{
     text-decoration:line-through;
