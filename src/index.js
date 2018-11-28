@@ -27,16 +27,19 @@ function loadGoods() {
         for (var key in data){
             out+='<div class="goods-list">';
             var name = data[key]['name'];
+            out+='<div class="goods-img-container">';
             out+='<img class="goods-img" src="'+data[key]['image_url']+'" alt="'+ name +'">';
+            out+='</div>';
             out+='<span class="goods-name">'+ name +'</span>';
             var price = data[key]['price'];
             var sprice = data[key]['special_price'];
+            //out+='<div class="price-container">';
             if (sprice!=null){
-                out+='<span style="text-decoration:line-through">'+sprice+'</span>';
+                out+='<span class="special-price">'+ sprice + '</span>';
             }
             out+='<span class="price">'+price+'</span>';
             out+='</div>';
         }
-        $('#goods-content').append(out);
+        $('#goods-container').append(out);
     });
 }
