@@ -1,12 +1,14 @@
 import './scss/main.scss';
-
 //stash
 var cart = {};
+var goods = {};//all goods
 
 $('document').ready(function () {
     loadCategories();
     loadGoods();
-})
+    checkCart();
+    showMiniCart();
+});
 
 function loadCategories() {
     //loading categories to the list of categories
@@ -23,6 +25,7 @@ function loadCategories() {
 }
 function loadGoods() {
     $.getJSON("https://nit.tron.net.ua/api/product/list",function (data) {
+        goods = data;
         var out = '';
         for (var key in data){
             var goodsId = data[key]['id'];
@@ -54,5 +57,23 @@ function addToCart() {
     else{
         cart[articul] = 1;
     }
+    localStorage.setItem('cart',JSON.stringify(cart))
     console.log(cart);
+    showMiniCart();
+}
+function checkCart() {
+    //check if cart is in the local storage
+    if (localStorage.getItem('cart')!=null){
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+}
+
+function showMiniCart(){
+    //show cart
+    var out = '';
+    for (var x in cart){
+        out += '<div class="cart-items">'+ goodsх + ' --- ' + cart[x] + '<br></div>';
+    }
+    $('.cart-content').html(out);
+    //console.log(out);
 }

@@ -46,9 +46,11 @@ header {
         color: white; }
       header #right-header-container #contacts-jump a:hover {
         text-decoration: none; }
-    header #right-header-container #cart {
+    header #right-header-container .cart {
       float: right; }
-      header #right-header-container #cart img {
+      header #right-header-container .cart :hover {
+        cursor: pointer; }
+      header #right-header-container .cart img {
         height: 63px;
         width: 63px; }
 
@@ -139,4 +141,49 @@ header {
   #goods-content .price {
     font-size: 1.5em;
     display: block; }
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px; }
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s; }
+
+.sidebar a:hover {
+  color: #f1f1f1; }
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px; }
+
+#header {
+  transition: margin-left .5s; }
+
+.cart-content {
+  color: white; }
+
+.cart-items {
+  color: white;
+  margin: 10px auto 10px 15px;
+  line-height: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  height: 11%; }
 

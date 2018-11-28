@@ -7,17 +7,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+        <script src="./js/cart.js"></script>
         <title>FIhorShop</title>
     </head>
     <body>
-        <header>
+        <header id="header">
             <a href="index.html">
                 <div id="header-shape">
                     <h1 class="header-title">FIhorShop</h1>
                 </div>
             </a>
             <div id="right-header-container">
-                <div id="cart">
+                <div class="cart openbtn" onclick="openCart()">
                     <img src="img/cart.png" alt="Cart">
                 </div>
                 <div id="contacts-jump">
@@ -27,6 +28,14 @@
                 </div>
             </div>
         </header>
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeCart()">×</a>
+            <div class="cart-content">
+
+            </div>
+        </div>
+
+        </div>
         <div class="main-content">
             <section id="categories">
                 <div id="categories-title">
@@ -37,14 +46,17 @@
                 </div>
             </section>
             <section id="goods-content">
-                <div id="goods-content-header"></div>
+                <div id="goods-content-header">
+                    <div id="cart-window">
+
+                    </div>
+                </div>
                 <div id="goods-container">
 
                 </div>
 
             </section>
         </div>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script src="./js/main.js"></script>
     </body>
