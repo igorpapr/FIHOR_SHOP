@@ -73,7 +73,7 @@ function loadGoodsFromCategory(id) {
             out+='<div class="goods-img-container">';
             out+='<img class="goods-img" src="'+data[key]['image_url']+'" alt="'+ name +'">';
             out+='</div>';
-            out+='<span class="goods-name show-good-info" name-art="'+goodsId+'">'+ name +'</span>';
+            out+='<span class="goods-name show-good-info" data-art="'+goodsId+'">'+ name +'</span>';
             var price = data[key]['price'];
             var sprice = data[key]['special_price'];
             if (sprice!=null){
@@ -115,7 +115,7 @@ function loadGoodsFromCategory(id) {
             }
         });
         $('.show-good-info').on('click', function(){
-            var id = $(this).attr('name-art');
+            var id = $(this).attr('data-art');
             showPreview(id);
         });
     });
@@ -135,12 +135,12 @@ function showPreview(id) {
         out += '</div>';
 
         out += '<div class="container">';
-        out += '<p /*         class       */>' + data['name'] + '</p>';/////////////////////////////////////////////////
-        out += '<span>Description</span>'
-        out += '<p /* class */>' + data['description'] + '</p>';
+        out += '<p class="preview-goods-name">' + data['name'] + '</p>';
+        out += '<span style="font-style: italic">Description:</span>'
+        out += '<p class="preview-description">' + data['description'] + '</p>';
         out += '</div>';
 
-        out += '<div class="container">';
+        out += '<div class="container preview-price-container">';
         out += '<p style="text-transform: uppercase; margin: 5px 10px;">Price</p>';
 
         if (data['special_price'] === null) {
@@ -152,7 +152,7 @@ function showPreview(id) {
         }
         out += '</div>';
 
-        out += '<div class="container" style="background-color:#f1f1f1">';
+        out += '<div class="container button-container" style="background-color:#f1f1f1">';
         out += '<button class="cancel-prev-btn" type="button">Cancel</button>';
         out += '<button class="add-button" data-art="' + data['id'] + '"> Add to cart </button>';
         out += '</div>';
@@ -216,7 +216,6 @@ function showPreview(id) {
     });
 }
 
-
 function openCart() {
     showMiniCart();
     document.getElementById("mySidebar").style.width = "317px";
@@ -244,7 +243,7 @@ function showMiniCart(){
             out += '<div class="cart-items">';
             out += '<img class="cross-img" src="img/cross.png" data-art = "'+x+'" >';
             out += '<div class="cart-name">';
-            out += '<span id="show-good-info" data-art = "'+x+'">' + cart[x].name + '</span></div>';
+            out += '<span class="show-good-info" data-art = "'+x+'">' + cart[x].name + '</span></div>';
             out += '<div class="cart-item-quantity">';
             out += '<img class="operations-img plus" src="img/plus.png"  data-art="'+x+'">';
             out += '<span>' + cart[x].quantity + '</span>';
@@ -257,18 +256,19 @@ function showMiniCart(){
         out += '<span class="cart-item-cost">Total: '+ total +' UAH</span>';
         out += '<button class="cart-btn">Order</button>';
         out += '</div>';
+
         $('.cart-content').html(out);
-        //
-        // $('button .cart-btn').on('click', function(){
-        //     //cartDrop();
-        //     //showCheckoutDialog(currPrice);
-        // });
-        //
-        // $('#show-good-info').on('click', function(){
-        //     var id = $(this).attr('data-art');
-        //     //cartDrop();
-        //     //showGoodDialog(id);
-        // });
+
+        $('.cart-btn').on('click', function(){
+            closeCart();
+            showCheckoutForm(total);
+        });
+
+        $('span.show-good-info').on('click', function(){
+            var id = $(this).attr('data-art');
+            closeCart();
+            showPreview(id);
+        });
         $('.minus').on('click', function(){
             var id = $(this).attr('data-art');
             if(cart[id].quantity>1){
@@ -298,9 +298,88 @@ function showMiniCart(){
     }
 }
 
+function showCheckoutForm(totalValue) {
+        var out = '';
+
+        out += '<div id="id01" class="modal">';
+        out += '<div class="modal-content animate">';
+
+        out += '<span class="close" title="Close Preview">&times;</span>';
+        out+='<p class="order-title"">Your order</p>';
+
+        out+='<div class="container bordered">';
+        for(var key in cart){
+            out+='<p class="order-item">'+cart[key].name+' ('+cart[key].quantity+')</p>';
+        }
+        out+='</div>';
+
+        out+='<p class="total-price">Total: '+totalValue+' UAH</p>';
+        out+='<div style="margin-bottom:10px;background-color: #7a7a7a; border: 3px solid #000;">';
+
+        out+='<form name="FIHORShop_ORDER" action="" method="post">';
+        out+='<p>Full name</p>';
+        out+='<input name="name" id="nl" type="text"  placeholder="Your name" required>';
+        out+='<p>Phone number</p>';
+        out+='<input name="phone" id="p1" placeholder="Your phone number" type="tel" required>';
+        out+='<p>E-mail</p>';
+        out+='<input name="email" id="e1" type="email" placeholder="Your e-mail" required>';
+
+        out+='</form>';
+        out+='</div>';
+        out +='<button class="cancel-prev-btn" type="button" style="margin-right: 30px">Cancel</button>';
+        out+='<button class="send-button" id="send">Order</button>';
+
+        out += '</div>';
+        out += '</div>';
+
+        $('#preview-frame').html(out);
+
+        document.getElementById('id01').style.display = 'block';
+        $('.cancel-prev-btn').on('click', function () {
+            document.getElementById("id01").style.display = "none";
+        });
+        $('.close').on('click', function () {
+            document.getElementById("id01").style.display = "none";
+        });
+
+        $('.send-button').on('click', function(){
+            var formData = new FormData(document.forms.FIHORShop_ORDER);
+            console.log("Ordered:");
+            console.log(cart);
+            var myKey;
+            for(var x in cart){
+                myKey = parseInt(x)+1;
+                formData.append("products["+myKey+"]",cart[key].quantity);
+            }
+
+            formData.append("token", "BP_2UiDNH4wAmOlxM5Sd");
+
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://nit.tron.net.ua/api/order/add");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        if(xhr.responseText.indexOf('error')>0){
+                            alert("There's some issues with your order. Please check data of your input");
+                        }
+                        else{
+                            for(var y in cart){
+                                delete cart[y];
+                            }
+
+
+                            $('#preview-frame').html('<p>Ordered succesfully!!!</p>');
+                            localStorage.setItem('cart',JSON.stringify(cart));
+                        }
+                    }
+                }
+            }
+            xhr.send(formData);
+        });
+}
 
 function checkCart() {
-    //проверяю наличие корзины в localStorage;
     if (localStorage.getItem('cart') != null) {
         cart = JSON.parse(localStorage.getItem('cart'));
     }
