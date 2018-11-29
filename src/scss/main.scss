@@ -190,6 +190,7 @@ header {
   top: 0;
   right: 0;
   background-color: #111;
+  opacity: 0.99;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -204,16 +205,13 @@ header {
   transition: 0.3s;
 }
 
-.sidebar a:hover {
-  color: #f1f1f1;
-}
-
 .sidebar .closebtn {
   position: absolute;
   top: 0;
   right: 25px;
   font-size: 36px;
   margin-left: 50px;
+
 }
 
 #header {
@@ -225,11 +223,56 @@ header {
 }
 
 .cart-items{
+  padding-right: 12px;
   color:white;
+  height: 66px;
   margin: 10px auto 10px 15px;
-  line-height: 1.5em;
+  line-height: 1.2em;
   font-weight: bold;
   text-align: center;
   display: block;
-  height: 11%;
+
+  .cart-name{
+    float: left;
+    padding-left: 10px;
+    max-width: 180px;
+  }
 }
+.cross-img{
+  width:20px;
+  height:20px;
+  float: left;
+  vertical-align: center;
+}
+.cart-item-quantity{
+    float:right;
+
+  .plus{
+    float:left;
+    padding-right: 3px;
+  }
+  .minus{
+    float:right;
+    padding-left: 3px;
+  }
+}
+.operations-img{
+  width: 20px;
+  height: 20px;
+}
+  .cart-item-cost-buy{
+    text-align: center;
+    padding-top: 50px;
+    margin-top: 5px;
+    height: 100px;
+
+    .cart-item-cost{
+      display: block;
+    }
+    .cart-btn{
+      width: 100px;
+      height:auto;
+      align-items: center;
+    }
+  }
+

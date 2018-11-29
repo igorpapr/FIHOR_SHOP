@@ -41,10 +41,11 @@ function loadGoods() {
                 out+='<span class="special-price">'+ sprice + '</span>';
             }
             out+='<span class="price">'+price+'</span>';
-            out+='<button class="add-to-cart" data-id="'+ goodsId +'">Buy</button>';
+            out+='<button class="add-to-cart" data-id="'+ goodsId +'">Add to cart</button>';
             out+='</div>';
         }
         $('#goods-container').append(out);
+        showMiniCart();
         $('button.add-to-cart').on('click', addToCart);
     });
 }
@@ -61,6 +62,7 @@ function addToCart() {
     console.log(cart);
     showMiniCart();
 }
+
 function checkCart() {
     //check if cart is in the local storage
     if (localStorage.getItem('cart')!=null){
@@ -70,10 +72,26 @@ function checkCart() {
 
 function showMiniCart(){
     //show cart
+
     var out = '';
-    for (var x in cart){
-        out += '<div class="cart-items">'+ goodsх + ' --- ' + cart[x] + '<br></div>';
-    }
+    var total = 0;
+        for (var x in cart){
+            out += '<div class="cart-items">';
+            out += '<img src="img/cross.png" class="cross-img">';
+            out += '<div class="cart-name">';
+            out += '<span>'+goods[x].name + '</span></div>';
+            out += '<div class="cart-item-quantity">';
+            out += '<img src="img/plus.png"  class="operations-img plus">';
+            out += '<span>'+ cart[x]+'</span>';
+            out += '<img src="img/minus.png" class="operations-img minus">';
+            out += '</div>';
+            total += cart[x] * goods[x]['price'];
+            out+='</div>';
+        }
+    out += '<div class="cart-item-cost-buy">';
+    out += '<span class="cart-item-cost">Total: '+ total +'</span>';
+    out += '<button class="cart-btn">Order</button>';
+    out += '</div>';
     $('.cart-content').html(out);
-    //console.log(out);
+    
 }

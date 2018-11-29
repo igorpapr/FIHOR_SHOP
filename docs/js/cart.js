@@ -1,7 +1,6 @@
 function openCart() {
-    document.getElementById("mySidebar").style.width = "300px";
-    document.getElementById('header').style.marginRight = "300px";
-    console.log("ti zhopa");
+    document.getElementById("mySidebar").style.width = "317px";
+    document.getElementById('header').style.marginRight = "317px";
 }
 function closeCart() {
     document.getElementById("mySidebar").style.width = "0";
