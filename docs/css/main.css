@@ -132,7 +132,7 @@ header {
     margin: 0 1%;
     text-align: center;
     min-width: 160px; }
-  #goods-content .special-price {
+  #goods-content .old-price {
     text-decoration: line-through;
     font-size: 0.9em;
     margin-right: 5px;
