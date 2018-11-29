@@ -63,7 +63,7 @@ header {
   min-width: 387px;
   display: flex;
   background-color: #ffedbc;
-  height: 1000px; }
+  min-height: 500px; }
 
 #categories {
   margin: 80px 10px 10px 10px;
@@ -100,20 +100,22 @@ header {
       font-size: 1.5em; }
     #categories-list ul .current {
       background-color: black;
-      color: white; }
+      color: white;
+      border-radius: 5px; }
     #categories-list ul li:hover {
       cursor: pointer; }
 
 #goods-content {
   width: auto;
-  min-width: 400px;
+  min-width: 450px;
   background-color: white; }
   #goods-content #goods-content-header {
     font-size: 1.9em;
     font-weight: bold;
     border-bottom: 1px solid black;
     text-align: center;
-    margin-top: 80px; }
+    margin-top: 80px;
+    font-family: Gloria, cursive; }
   #goods-content #goods-container {
     margin-top: 15px;
     float: left; }
@@ -126,10 +128,9 @@ header {
     #goods-content .goods-img img {
       object-fit: contain; }
   #goods-content .goods-list {
-    margin: 10px;
     display: inline-block;
     width: 30%;
-    margin: 0 1%;
+    margin: 0 1% 5% 1%;
     text-align: center;
     min-width: 160px; }
   #goods-content .old-price {
@@ -140,7 +141,21 @@ header {
     display: block; }
   #goods-content .price {
     font-size: 1.5em;
+    display: block;
+    margin-top: 5px; }
+  #goods-content .new-price {
+    font-size: 1.2em;
     display: block; }
+  #goods-content .add-to-cart {
+    background-color: #d8c834;
+    color: black;
+    border: 2px solid black;
+    border-radius: 3px; }
+  #goods-content button:hover {
+    background-color: #f7df02;
+    cursor: pointer; }
+  #goods-content button:focus {
+    outline: 0; }
 
 .sidebar {
   height: 100%;
@@ -174,7 +189,8 @@ header {
   transition: margin-left .5s; }
 
 .cart-content {
-  color: white; }
+  color: white;
+  text-align: center; }
 
 .cart-items {
   padding-right: 12px;

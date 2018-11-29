@@ -1,52 +1,58 @@
 import './scss/main.scss';
-//stash
-var cart = {};
-var goods = {};//all goods
-var catDeskr ={};
-var currentCategory;
 
+var cart = {};//stash
+var goods = {};//all goods
+var catDescr ={};//for #goods-content-title
+var currentCategory;
+var cartOpened = false;
 $('document').ready(function () {
     loadCategories();
-    loadGoodsFromCategory();
+    loadGoodsFromCategory(1);
     checkCart();
-    showMiniCart();
+    $('.openbtn').on('click', function(){
+            openCart();
+    });
+    $('.closebtn').on('click', function(){
+        closeCart();
+    });
+    //showMiniCart();
 });
 
 function loadCategories() {
     //loading categories to the list of categories
     $.getJSON("https://nit.tron.net.ua/api/category/list",function (data) {
         var out = '';
-        out+='<li class="category-item" data-id="0" title="All goods">All devices</li>';
-        catDeskr[0] = 'All devices';
+        out+='<li class="category-item current" data-id="1" title="All goods">All devices</li>';
+        catDescr[1] = 'All devices';
+        currentCategory = 1;
+        $('#goods-content-header').html(catDescr[currentCategory]);
         var catID;
         for (var key in data){
             catID = data[key]['id'];
             out+='<li class="category-item" data-id="'+catID+'">' + data[key]['name'] + '</li>';
-            catDeskr[catID] = data[key]['description'];
+            catDescr[catID] = data[key]['description'];
         }
-        console.log(catDeskr);
+        console.log(catDescr);
         $('#categories-list ul').html(out);
 
-        // $('li.category-item').on('click', function(){
-        //     var id = $(this).attr('data-id');
-        //
-        //     if(currentCategory!==id){
-        //         loadGoodsFromCategory(id);
-        //         $('#ghead').html(categoryDescription[id-1]);
-        //         $('.load:eq('+(selectedCategory-1)++')').removeClass('highlight');
-        //         $('.load:eq('+(id-1)+')').addClass('highlight');
-        //         selectedCategory=id;
-        //         currentCategory=id;
-        //     }
-        // });
-        //
-        //  = $('.category-item:contains("All")').addClass('current');
-        //var desr = curr.attr('title');
-        //$('#goods-content-header').html(desr);
+        $('li.category-item').on('click', function(){
+            var id = $(this).attr('data-id');//mb parse will be needed
+            if(currentCategory!==id){
+                loadGoodsFromCategory(id);////////////////////////////////////WMESTO APPEND - HTML
+                $('#goods-content-header').html(catDescr[id]);
+                $('.current').removeClass('current');
+                $(this).addClass('current');
+                currentCategory=id;
+            }
+        });
     });
 }
-function loadGoodsFromCategory() {
-    $.getJSON("https://nit.tron.net.ua/api/product/list",function (data) {
+function loadGoodsFromCategory(id) {
+    var source;
+    if (id == 0) source ="https://nit.tron.net.ua/api/product/list";
+    else         source ='https://nit.tron.net.ua/api/product/list/category/'+id;
+
+    $.getJSON(source,function (data) {
         goods = data;
         var out = '';
         for (var key in data){
@@ -56,88 +62,126 @@ function loadGoodsFromCategory() {
             out+='<div class="goods-img-container">';
             out+='<img class="goods-img" src="'+data[key]['image_url']+'" alt="'+ name +'">';
             out+='</div>';
-            out+='<span class="goods-name">'+ name +'</span>';
+            out+='<span class="goods-name open-descr-frame" name-art="'+goodsId+'">'+ name +'</span>';
             var price = data[key]['price'];
             var sprice = data[key]['special_price'];
             if (sprice!=null){
-                out+='<span class="old-price">'+ price + '</span>';
-                out+='<span class="price">'+sprice+'</span>';
+                out+='<span class="old-price">'+ price +' грн'+ '</span>';
+                out+='<span class="new-price">'+sprice +' грн'+'</span>';
             }
             else{
-                out+='<span class="price">'+ price + '</span>';
+                out+='<span class="price">'+ price +' грн'+ '</span>';
             }
-            out+='<button class="add-to-cart" data-id="'+ goodsId +'">Add to cart</button>';
+            out+='<button class="add-to-cart" data-id="'+ goodsId +'" data-obj="'+key+'">Add to cart</button>';
             out+='</div>';
         }
-        $('#goods-container').append(out);
-//        showMiniCart();
+        $('#goods-container').html(out);
+
         $('button.add-to-cart').on('click', function () {
-            var articul = $(this).attr('data-id');
-            if (cart[articul]!=undefined){
-                cart[articul]++;
+            var obj = parseInt($(this).attr('data-obj'));
+            var id = $(this).attr('data-id');
+
+            if (cart[id-1]!=undefined){
+                cart[id-1].quantity++;
             }
             else{
-                cart[articul] = 1;
+                cart[id-1]={};
+                cart[id-1].name=data[obj]['name'];
+                cart[id-1].quantity=1;
+                if(data[obj]['special_price']!=null){
+                    cart[id-1].price=data[obj]['special_price'];
+                }else{
+                    cart[id-1].price=data[obj]['price'];
+                }
             }
             localStorage.setItem('cart',JSON.stringify(cart))
-            showMiniCart();
+            if(!cartOpened){
+                openCart();
+                showMiniCart();
+            }
+            else{
+                showMiniCart();
+            }
         });
     });
 }
-
+function openCart() {
+    showMiniCart();
+    document.getElementById("mySidebar").style.width = "317px";
+    document.getElementById('header').style.marginRight = "317px";
+    cartOpened = true;
+}
+function closeCart() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById('header').style.marginRight= "0";
+    cartOpened = false;
+}
 
 function showMiniCart(){
     //show cart
-    var out = '';
-    var total = 0;
-    if ($.isEmptyObject(cart)){
-        out +='Cart is empty';
-        $('.cart-content').html(out);
-    }
-    else{
-        console.log("CART: ");
-        console.log(cart);
+    if (!(isEmpty(cart))){
+        var total = 0;
+        var out = '';
         for (var x in cart) {
-                console.log(x + '---' + cart[x]);
-                out += '<div class="cart-items">';
-                out += '<img src="img/cross.png" class="cross-img">';
-                out += '<div class="cart-name">';
-                out += '<span>' + goods[x].name + '</span></div>';
-                out += '<div class="cart-item-quantity">';
-                out += '<img src="img/plus.png"  data-art="' + x + '" class="operations-img plus">';
-                out += '<span>' + cart[x] + '</span>';
-                out += '<img src="img/minus.png" data-art="' + x + '" class="operations-img minus">';
-                out += '</div>';
-                total += cart[x] * goods[x]['price'];
-                out += '</div>';
+            out += '<div class="cart-items">';
+            out += '<img class="cross-img" src="img/cross.png" data-art = "'+x+'" >';
+            out += '<div class="cart-name">';
+            out += '<span id="show-good-info" data-art = "'+x+'">' + goods[x].name + '</span></div>';
+            out += '<div class="cart-item-quantity">';
+            out += '<img class="operations-img plus" src="img/plus.png"  data-art="'+x+'">';
+            out += '<span>' + cart[x].quantity + '</span>';
+            out += '<img class="operations-img minus" src="img/minus.png" data-art="'+x+'">';
+            out += '</div>';
+            total += cart[x].quantity * parseFloat(cart[x].price);
+            out += '</div>';
         }
         out += '<div class="cart-item-cost-buy">';
         out += '<span class="cart-item-cost">Total: '+ total +'</span>';
         out += '<button class="cart-btn">Order</button>';
         out += '</div>';
         $('.cart-content').html(out);
-//        $('.plus').on('click',plusGoods());
-//        $('.minus').on('click',minusGoods());
+        //
+        // $('button .cart-btn').on('click', function(){
+        //     //cartDrop();
+        //     //showCheckoutDialog(currPrice);
+        // });
+        //
+        // $('p #show-good-info').on('click', function(){
+        //     var id = $(this).attr('data-art');
+        //     //cartDrop();
+        //     //showGoodDialog(id);
+        // });
+
+        $('.cross-img').on('click', function(){
+            var id = $(this).attr('data-art');
+            cart[id].quantity=0;
+            delete cart[id];
+            showMiniCart();
+            localStorage.setItem('cart',JSON.stringify(cart));
+        });
+        //
+        $('.plus').on('click', function(){
+            var id = $(this).attr('data-art');
+            cart[id].quantity++;
+            localStorage.setItem('cart',JSON.stringify(cart));
+            showMiniCart();
+        });
+
+        $('.minus').on('click', function(){
+            var id = $(this).attr('data-art');
+            if(cart[id].quantity>1){
+                cart[id].quantity--;
+            }
+            else if (cart[id].quantity > 0) delete cart[id];
+            localStorage.setItem('cart',JSON.stringify(cart));
+            showMiniCart();
+        });
+    }else{
+        var out='<p>Cart is empty</p>';
+        $('.cart-content').html(out);
     }
 }
 
-function plusGoods() {
-    var articul = $(this).attr('data-art');
-        cart[articul]++;
-    saveCartToLS(); //сохраняю корзину в localStorage
-    showMiniCart();
-}
-function minusGoods() {
-    var articul = $(this).attr('data-art');
-    if (cart[articul] > 1) {
-        cart[articul]--;
-    }
-    else {
-        delete cart[articul];
-    }
-    saveCartToLS();//сохраняю корзину в localStorage
-    showMiniCart();
-}
 
 function checkCart() {
     //проверяю наличие корзины в localStorage;
@@ -146,12 +190,10 @@ function checkCart() {
     }
 }
 
-function deleteGoods() {
-    var articul = $(this).attr('data-art');
-    delete cart[articul];
-    saveCartToLS();//сохраняю корзину в localStorage
-    showMiniCart();
-}
-function saveCartToLS() {
-    localStorage.setItem('cart', JSON.stringify(cart));
+function isEmpty(obj) {
+    for(var i in obj) {
+        if(obj.hasOwnProperty(i))
+            return false;
+    }
+    return JSON.stringify(obj) === JSON.stringify({});
 }
