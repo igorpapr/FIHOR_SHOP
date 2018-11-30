@@ -77,7 +77,7 @@ header {
   width:100%;
   min-width: 387px;
   display: flex;
-  background-color: #ffedbc;
+  background-color: #fff;
   min-height: 500px; //////////////////////////////////////////////////////UBRAT'
 }
 #categories{
@@ -86,7 +86,7 @@ header {
   min-width: 300px;
   width: 18rem;
   border-radius: 5px;
-  background-color: #7a7a7a;//linear-gradient(to bottom, #8c021e 0%, #c4173a 53%, #e86882 100%);
+  background-color: #b2b2b2;//linear-gradient(to bottom, #8c021e 0%, #c4173a 53%, #e86882 100%);
   height: fit-content;
 }
 #categories-title{
@@ -185,11 +185,9 @@ header {
     outline: 0;
   }
 }
-////////////////////////////////////////////////////////////////
 button:hover {
   opacity: 0.8;
 }
-////////////////////////////////////////////////////////////////
 .old-price{
   text-decoration:line-through;
   font-size: 0.9em;
@@ -206,7 +204,6 @@ button:hover {
   font-size: 1.2em;
   display: block;
 }
-////////////////////////////////////////
 .sidebar {
   height: 100%;
   width: 0;
@@ -435,7 +432,6 @@ img.avatar {
     width: 50px;
   }
 }
-///////////////////////////////////////////////////////////////////
 .order-title{
   text-transform: uppercase;
   font-weight: bold;
@@ -485,4 +481,26 @@ img.avatar {
   border:2px solid black;
   font-size: 1.3em;
   float:right;
+}
+footer{
+  width:100%;
+  background: linear-gradient(to bottom right, #050500 0%,#a3a310 35%, #c9c90c 65%, #c4c400 75%,#ffff02 100%);
+  flex:0 0 auto;
+  min-width: 387px;
+  color: white;
+  padding: 20px 20px 20px 30px;
+  div{
+    display:block;
+    font-size: 1.1em;
+    line-height: 1.2em;
+    a{
+      font-family: Gloria, cursive;
+      color: #19190f;
+    }
+  }
+}
+.copyright{
+  font-family: Gloria,cursive;
+  color: white;
+  font-size: 0.9em;
 }
