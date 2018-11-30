@@ -16,15 +16,6 @@ $('document').ready(function () {
     $('.closebtn').on('click', function(){
         closeCart();
     });
-
-    // var modal = document.getElementById('preview');
-    // // When the user clicks anywhere outside of the modal, close it
-    // window.onclick = function(event) {
-    //     if (event.target == modal) {
-    //         modal.style.display = "none";
-    //     }
-    // }
-    //showMiniCart();
 });
 
 function loadCategories() {
@@ -62,9 +53,7 @@ function loadGoodsFromCategory(id) {
     else         source ='https://nit.tron.net.ua/api/product/list/category/'+id;
 
     $.getJSON(source,function (data) {
-
-        goods = data;/////////////////////////////////all goods
-
+        goods = data;
         var out = '';
         for (var key in data){
             var goodsId = data[key]['id'];
@@ -141,14 +130,14 @@ function showPreview(id) {
         out += '</div>';
 
         out += '<div class="container preview-price-container">';
-        out += '<p style="text-transform: uppercase; margin: 5px 10px;">Price</p>';
+        out += '<p class="preview-price-header" style="">Price</p>';
 
         if (data['special_price'] === null) {
             out += '<p class="price">' + data['price'] + ' грн. </p>';
         }
         else {
-            out += '<p class="old-price">' + data['price'] + ' грн. </p>';
-            out += '<p class="new-price">' + data['special_price'] + ' грн. </p>';
+            out += '<p class="old-price medium">' + data['price'] + ' грн. </p>';
+            out += '<p class="new-price larger">' + data['special_price'] + ' грн. </p>';
         }
         out += '</div>';
 
@@ -304,8 +293,10 @@ function showCheckoutForm(totalValue) {
         out += '<div id="id01" class="modal">';
         out += '<div class="modal-content animate">';
 
+        out += '<div class="imgcontainer">';
         out += '<span class="close" title="Close Preview">&times;</span>';
-        out+='<p class="order-title"">Your order</p>';
+        out += '<p class="order-title"">Your order</p>';
+        out += '</div>';
 
         out+='<div class="container bordered">';
         for(var key in cart){
@@ -313,22 +304,24 @@ function showCheckoutForm(totalValue) {
         }
         out+='</div>';
 
-        out+='<p class="total-price">Total: '+totalValue+' UAH</p>';
-        out+='<div style="margin-bottom:10px;background-color: #7a7a7a; border: 3px solid #000;">';
+        out+='<p class="total-price">Total: ' + totalValue + ' UAH</p>';
+        out+='<div class="form-input-container">';
 
-        out+='<form name="FIHORShop_ORDER" action="" method="post">';
-        out+='<p>Full name</p>';
-        out+='<input name="name" id="nl" type="text"  placeholder="Your name" required>';
+        out+='<form class="form-position" name="FIHORShop_ORDER" action="" method="post">';
+        out+='<p class="form-user-name">Full name</p>';
+        out+='<input name="name" class="inputs" placeholder="Your name" type="text" required>';
         out+='<p>Phone number</p>';
-        out+='<input name="phone" id="p1" placeholder="Your phone number" type="tel" required>';
+        out+='<input name="phone" class="inputs" placeholder="Your phone number" type="tel" required>';
         out+='<p>E-mail</p>';
-        out+='<input name="email" id="e1" type="email" placeholder="Your e-mail" required>';
-
+        out+='<input name="email" class="inputs" placeholder="Your e-mail" type="email"  required>';
         out+='</form>';
         out+='</div>';
-        out +='<button class="cancel-prev-btn" type="button" style="margin-right: 30px">Cancel</button>';
-        out+='<button class="send-button" id="send">Order</button>';
 
+        out+='<div class="container order-last">';
+        out +='<button class="cancel-prev-btn" type="button" ">Cancel</button>';
+        out+='<button class="send-button" id="send">Submit</button>';
+
+        out += '</div>';
         out += '</div>';
         out += '</div>';
 
