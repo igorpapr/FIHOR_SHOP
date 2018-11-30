@@ -8,6 +8,7 @@ header {
   position: fixed;
   display: block;
   width: 100%;
+  min-width: 375px;
   height: fit-content;
   max-height: 70px;
   background: linear-gradient(to top left, #050500 0%, #a3a310 35%, #c9c90c 65%, #c4c400 75%, #ffff02 100%); }
@@ -60,13 +61,13 @@ header {
 
 .main-content {
   width: 100%;
-  min-width: 387px;
+  min-width: 375px;
   display: flex;
   background-color: #fff;
   min-height: 500px; }
 
 #categories {
-  margin: 80px 10px 10px 10px;
+  margin: 80px auto auto auto;
   min-width: 300px;
   width: 18rem;
   border-radius: 5px;
@@ -132,7 +133,7 @@ header {
     width: 30%;
     margin: 0 1% 5% 1%;
     text-align: center;
-    min-width: 160px; }
+    min-width: 200px; }
   #goods-content .add-to-cart {
     background-color: #d8c834;
     color: black;
@@ -146,6 +147,24 @@ header {
 
 button:hover {
   opacity: 0.8; }
+
+@media only screen and (max-width: 768px) {
+  .main-content {
+    display: table-row; }
+  #categories {
+    width: 21rem;
+    font-size: 1.1em; } }
+
+@media only screen and (min-width: 768px) {
+  header {
+    min-width: 375px; }
+  #categories {
+    margin-left: 50px;
+    margin-right: 5%; }
+  .categories {
+    width: 18rem; }
+  #goods-content {
+    min-width: 600px; } }
 
 .old-price {
   text-decoration: line-through;
@@ -315,40 +334,27 @@ img.avatar {
   min-height: 60px;
   vertical-align: center; }
 
-/* The Modal (background) */
 .modal {
   display: none;
-  /* Hidden by default */
   position: fixed;
-  /* Stay in place */
   z-index: 1;
-  /* Sit on top */
   left: 0;
   top: 0;
   width: 100%;
-  /* Full width */
   height: 100%;
-  /* Full height */
   overflow: auto;
-  /* Enable scroll if needed */
   background-color: black;
-  /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
-  /* Black w/ opacity */
   padding-top: 60px; }
 
-/* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto 15% auto;
-  /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
   border-radius: 15px;
   min-width: 350px;
-  width: 80%;
-  /* Could be more or less, depending on screen size */ }
+  width: 80%; }
 
-/* The Close Button (x) */
 .close {
   position: absolute;
   right: 25px;
@@ -436,7 +442,7 @@ footer {
   width: 100%;
   background: linear-gradient(to bottom right, #050500 0%, #a3a310 35%, #c9c90c 65%, #c4c400 75%, #ffff02 100%);
   flex: 0 0 auto;
-  min-width: 387px;
+  min-width: 375px;
   color: white;
   padding: 20px 20px 20px 30px; }
   footer div {
