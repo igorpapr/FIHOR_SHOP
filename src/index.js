@@ -23,7 +23,7 @@ function loadCategories() {
     //loading categories to the list of categories
     $.getJSON("https://nit.tron.net.ua/api/category/list",function (data) {
         var out = '';
-        out+='<li class="category-item current" data-id="1" title="All goods">All devices</li>';
+        out+='<li class="category-item current" data-id="0" title="All goods">All devices</li>';
         catDescr[1] = 'All devices';
         currentCategory = 1;
         $('#goods-content-header').html(catDescr[currentCategory]);
