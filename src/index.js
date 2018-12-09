@@ -50,7 +50,9 @@ function loadCategories() {
 }
 function loadGoodsFromCategory(id) {
     var source;
-    if (id == 0) source ="https://nit.tron.net.ua/api/product/list";
+    if (id == 0) {
+        source = "https://nit.tron.net.ua/api/product/list";
+    }
     else         source ='https://nit.tron.net.ua/api/product/list/category/'+id;
 
     $.getJSON(source,function (data) {
