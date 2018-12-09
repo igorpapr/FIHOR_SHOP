@@ -5,9 +5,10 @@ var goods = {};//all goods
 var catDescr ={};//for #goods-content-title
 var currentCategory;
 var cartOpened = false;
+
 $('document').ready(function () {
     loadCategories();
-    loadGoodsFromCategory(1);
+    loadGoodsFromCategory(0);
     checkCart();
     console.log(cart);
     $('.openbtn').on('click', function(){
